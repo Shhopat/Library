@@ -23,10 +23,10 @@ import javax.sql.DataSource;
 import java.util.Properties;
 
 @Configuration
-@ComponentScan({"controller", "dao"})
-@EnableWebMvc
-@EnableTransactionManagement
+@ComponentScan({"controller", "dao", "test"})
 @PropertySource("classpath:hibernate.properties")
+@EnableTransactionManagement
+@EnableWebMvc
 public class ApplicationContextMVC implements WebMvcConfigurer {
     private final ApplicationContext applicationContext;
     private final Environment env;
@@ -43,6 +43,7 @@ public class ApplicationContextMVC implements WebMvcConfigurer {
         templateResolver.setApplicationContext(applicationContext);
         templateResolver.setPrefix("classpath:/templates/"); // Путь к представлениям
         templateResolver.setSuffix(".html"); // Расширение файла шаблона
+        templateResolver.setCharacterEncoding("UTF-8");
         return templateResolver;
     }
 
@@ -57,7 +58,8 @@ public class ApplicationContextMVC implements WebMvcConfigurer {
     @Override
     public void configureViewResolvers(ViewResolverRegistry registry) {
         ThymeleafViewResolver resolver = new ThymeleafViewResolver();
-        resolver.setTemplateEngine(templateEngine()); // Устанавливаем templateEngine
+        resolver.setTemplateEngine(templateEngine());
+        resolver.setCharacterEncoding("UTF-8");// Устанавливаем templateEngine
         registry.viewResolver(resolver); // Регистрируем resolver
     }
 

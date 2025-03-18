@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>All authors</title>
+</head>
+<body>
+<div th:if="${authors != null and !authors.isEmpty}">
+    <div th:each="author : ${authors}">
+        <p th:text="${author.id + '. ' + author.surname
+        + ' ' + author.name + ' ' +  author.lastname }">Автор</p>
+    </div>
+</div>
+
+<p th:if="${authors == null or authors.isEmpty}">Нет ни одного автора</p>
+
+
+</body>
+</html>
