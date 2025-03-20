@@ -7,12 +7,15 @@
 <body>
 <div th:if="${authors != null and !authors.isEmpty}">
     <div th:each="author : ${authors}">
-        <p th:text="${author.id + '. ' + author.surname
-        + ' ' + author.name + ' ' +  author.lastname }">Автор</p>
+        <a th:href="@{/authors/{id}(id=${author.id})}"
+           th:text="${author.id + '. ' + author.fullname + ', ' + author.year}"></a>
+
     </div>
 </div>
 
 <p th:if="${authors == null or authors.isEmpty}">Нет ни одного автора</p>
+<hr/>
+<a th:href="@{/authors/new}">Добавить человека</a>
 
 
 </body>

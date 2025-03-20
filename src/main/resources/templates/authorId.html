@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>All authors</title>
+</head>
+<body>
+<p th:text="${author.id + '. ' + author.fullname + ', ' + author.year}"></p>
+<div th:if="${author.books != null and !author.books.isEmpty()}">
+    <hr/>
+    <p>Книги:</p>
+    <div th:each="book : ${author.books}">
+        <p th:text="${book.id + '. ' + book.name}"></p>
+    </div>
+</div>
+<p th:if="${author.books == null or author.books.isEmpty()}">Человек пока не взял ни одной книги</p>
+<hr/>
+<form th:method="GET" th:action="@{/authors/{id}/edit(id=${author.id})}">
+    <input type="submit" value="Редактировать">
+</form>
+
+
+</body>
+</html>

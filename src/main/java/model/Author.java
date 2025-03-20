@@ -2,6 +2,7 @@ package model;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -10,45 +11,40 @@ public class Author {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private int id;
 
-    @Column(name = "name", nullable = false, unique = true, length = 30)
-    private String name;
-
-    @Column(name = "surname", nullable = false, updatable = false, length = 30)
-    private String surname;
-
-    @Column(name = "last_name", nullable = false, unique = false, length = 30)
-    private String lastname;
+    @Column(name = "fullname", nullable = false, unique = true, length = 60)
+    private String fullname;
 
     @Column(name = "year", nullable = false, unique = false)
     private int year;
 
-    @OneToMany
+    @OneToMany(mappedBy = "author", fetch = FetchType.EAGER)
     private List<Book> books;
 
-    public String getName() {
-        return name;
+    public String getFullname() {
+        return fullname;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public int getId() {
+        return id;
     }
 
-    public String getSurname() {
-        return surname;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public void setSurname(String surname) {
-        this.surname = surname;
+    public Author() {
     }
 
-    public String getLastname() {
-        return lastname;
+    public Author(String fullname, int year) {
+        this.fullname = fullname;
+        this.year = year;
     }
 
-    public void setLastname(String lastname) {
-        this.lastname = lastname;
+    public void setFullname(String fullname) {
+        this.fullname = fullname;
     }
 
     public int getYear() {
@@ -66,4 +62,16 @@ public class Author {
     public void setBooks(List<Book> books) {
         this.books = books;
     }
+
+    @Override
+    public String toString() {
+        return "Author{" +
+                "id=" + id +
+                ", fullname='" + fullname + '\'' +
+                ", year=" + year +
+                ", books=" + books +
+                '}';
+    }
+
+
 }

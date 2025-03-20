@@ -13,6 +13,7 @@ import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.thymeleaf.spring6.SpringTemplateEngine;
@@ -36,6 +37,11 @@ public class ApplicationContextMVC implements WebMvcConfigurer {
         this.applicationContext = applicationContext;
         this.env = env;
     }
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry.addResourceHandler("/**")
+                .setCachePeriod(0); // Отключаем кеширование ресурсов
+    }
 
     @Bean
     public SpringResourceTemplateResolver templateResolver() {
@@ -46,6 +52,7 @@ public class ApplicationContextMVC implements WebMvcConfigurer {
         templateResolver.setCharacterEncoding("UTF-8");
         return templateResolver;
     }
+
 
     @Bean
     public SpringTemplateEngine templateEngine() {

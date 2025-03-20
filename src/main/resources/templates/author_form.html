@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>All authors</title>
+</head>
+<body>
+<form th:method="POST" th:action="@{/authors}" th:object="${author}">
+    <label for="fullname">Введите ФИО:</label>
+    <input type="text" th:field="*{fullname}"
+           id="fullname" name="fullname">
+    <br/>
+    <label for="year">Введите год рождения:</label>
+    <input type="text" th:field="*{year}" id="year" name="year">
+    <hr/>
+    <input type="submit" value="Create!">
+
+</form>
+
+
+</body>
+</html>
