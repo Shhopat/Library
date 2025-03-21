@@ -7,7 +7,8 @@
 <body>
 <div th:if="${books != null and !books.isEmpty()}">
     <div th:each="book:${books}">
-        <p th:text="${book.id + '. ' + book.name + ', ' + book.nameAuthor + ', ' + book.yearBook}"></p>
+        <a th:href="@{books/{id}(id=${book.id})}"
+           th:text="${book.id + '. ' + book.name + ', ' + book.nameAuthor + ', ' + book.yearBook}"></a>
     </div>
 </div>
 <p th:if="${books == null or books.isEmpty()}">Нет ни одной книги</p>

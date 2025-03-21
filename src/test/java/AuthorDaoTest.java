@@ -53,5 +53,47 @@ public class AuthorDaoTest {
 
     }
 
+    @Test
+    void shouldGetAuthorById() {
+        Author author = new Author("Иванов Иван Иванович", 1997);
+        int id = 1;
+        Mockito.when(session.get(Author.class, id)).thenReturn(author);
+
+        Author result = authorDao.getAuthorById(id);
+        Assertions.assertEquals(author.getFullname(), result.getFullname());
+        Assertions.assertEquals(author.getId(), result.getId());
+
+        Mockito.verify(session).get(Author.class, id);
+    }
+
+    @Test
+    void shouldUpdate() {
+        int id = 1;
+        Author oldAuthor = new Author("Иванов Иван Иванович", 1997);
+        Author newAuthor = new Author("Иван Иван Иванович", 199);
+
+        Mockito.when(session.get(Author.class, id)).thenReturn(oldAuthor);
+        authorDao.update(id, newAuthor);
+
+        Assertions.assertEquals(oldAuthor.getFullname(), newAuthor.getFullname());
+        Assertions.assertEquals(oldAuthor.getYear(), newAuthor.getYear());
+
+        Mockito.verify(session).get(Author.class, id);
+
+
+    }
+
+    @Test
+    void shouldRemove() {
+        int id = 1;
+        Author oldAuthor = new Author("Иванов Иван Иванович", 1997);
+
+        Mockito.when(session.get(Author.class, id)).thenReturn(oldAuthor);
+        authorDao.remove(id);
+
+        Mockito.verify(session).get(Author.class, id);
+        Mockito.verify(session).remove(oldAuthor);
+    }
+
 
 }

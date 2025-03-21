@@ -35,7 +35,7 @@ public class Book {
         this.yearBook = yearBook;
     }
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "author_id", referencedColumnName = "id", nullable = true)
     private Author author;
 
