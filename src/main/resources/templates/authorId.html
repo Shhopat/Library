@@ -18,7 +18,9 @@
 <form th:method="GET" th:action="@{/authors/{id}/edit(id=${author.id})}">
     <input type="submit" value="Редактировать">
 </form>
-
+<form th:method="DELETE" th:action="@{/authors/{id}(id=${author.id})}">
+    <input type="submit" value="Удалить!">
+</form>
 
 </body>
 </html>
