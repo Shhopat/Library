@@ -23,6 +23,9 @@
     <span>Книга сейчас у:</span>
     <a th:href="@{/authors/{id}(id=${book.author.id})}"
        th:text="${book.author.fullname + ', ' + book.author.year}"></a>
+    <form th:method="PATCH" th:action="@{/books/{id}/takeBook(id=${book.id})}">
+        <input type="submit" value="Освободить книгу">
+    </form>
     <hr/>
 </div>
 <form th:method="GET" th:action="@{/books/{id}/edit(id=${book.id})}">

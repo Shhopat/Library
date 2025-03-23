@@ -10,7 +10,7 @@
     <hr/>
     <p>Книги:</p>
     <div th:each="book : ${author.books}">
-        <p th:text="${book.id + '. ' + book.name}"></p>
+        <p th:text="${book.name + ', ' + book.nameAuthor + ', ' + book.yearBook}"></p>
     </div>
 </div>
 <p th:if="${author.books == null or author.books.isEmpty()}">Человек пока не взял ни одной книги</p>

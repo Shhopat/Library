@@ -54,12 +54,21 @@ public class BookDao {
         book1.setYearBook(book.getYearBook());
         book1.setNameAuthor(book.getNameAuthor());
         book1.setAuthor(book.getAuthor());
+        session.update(book1);
     }
 
     @Transactional
     public void remove(int id) {
         Session session = sessionFactory.getCurrentSession();
         session.remove(session.get(Book.class, id));
+    }
+
+    @Transactional
+    public void removeAuthorBook(int id) {
+        Session session = sessionFactory.getCurrentSession();
+        Book book = session.get(Book.class, id);
+        book.setAuthor(null);
+        session.update(book);
     }
 
 }

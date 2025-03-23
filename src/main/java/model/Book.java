@@ -62,4 +62,10 @@ public class Book {
     public void setId(int id) {
         this.id = id;
     }
+
+    public Book(String name, String nameAuthor, int yearBook) {
+        this.name = name;
+        this.nameAuthor = nameAuthor;
+        this.yearBook = yearBook;
+    }
 }

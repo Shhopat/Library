@@ -3,6 +3,7 @@ package dao;
 import model.Author;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.validator.internal.constraintvalidators.hv.ModCheckBase;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -54,6 +55,7 @@ public class AuthorDao {
     public void remove(int id) {
         Session session = sessionFactory.getCurrentSession();
         session.remove(session.get(Author.class, id));
+
     }
 
 }
