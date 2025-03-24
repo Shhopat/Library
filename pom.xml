@@ -45,24 +45,24 @@
             <version>1.5.12</version>
             <scope>test</scope>
         </dependency>
-        <!-- spring-core -->
+        <!-- https://mvnrepository.com/artifact/org.springframework/spring-core -->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-core</artifactId>
-            <version>7.0.0-M2</version>
+            <version>6.2.3</version>
         </dependency>
         <!--Spring-beans -->
         <!-- https://mvnrepository.com/artifact/org.springframework/spring-beans -->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-beans</artifactId>
-            <version>7.0.0-M2</version>
+            <version>6.2.3</version>
         </dependency>
         <!--spring-context -->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-context</artifactId>
-            <version>7.0.0-M2</version>
+            <version>6.2.3</version>
         </dependency>
 
         <!-- jakarta.annotation-api -->
@@ -75,13 +75,13 @@
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-web</artifactId>
-            <version>7.0.0-M2</version>
+            <version>6.2.3</version>
         </dependency>
         <!--spring-webmvc -->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-webmvc</artifactId>
-            <version>7.0.0-M2</version>
+            <version>6.2.3</version>
         </dependency>
         <!--thymeleaf-spring6 -->
         <dependency>
@@ -145,10 +145,17 @@
             <version>5.16.0</version>
             <scope>test</scope>
         </dependency>
-
-
-
-
+        <!-- https://mvnrepository.com/artifact/org.springframework.data/spring-data-jpa -->
+        <dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-jpa</artifactId>
+            <version>3.4.4</version>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate.validator</groupId>
+            <artifactId>hibernate-validator</artifactId>
+            <version>8.0.2.Final</version>
+        </dependency>
 
     </dependencies>
 

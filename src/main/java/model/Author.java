@@ -1,6 +1,9 @@
 package model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Size;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,15 +12,19 @@ import java.util.List;
 @Table(name = "authors")
 public class Author {
 
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private int id;
 
     @Column(name = "fullname", nullable = false, unique = true, length = 60)
+    @NotEmpty(message = "Имя не может быть пустым")
+    @Size(min = 5, max = 60, message = "Символы должны быть между 5- 60 ")
     private String fullname;
 
     @Column(name = "year", nullable = false, unique = false)
+    @Min(value = 10, message = "должно быть больше 10")
     private int year;
 
     @OneToMany(mappedBy = "author", fetch = FetchType.EAGER)

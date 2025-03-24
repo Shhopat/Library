@@ -7,11 +7,15 @@
 <body>
 <form th:method="POST" th:action="@{/authors}" th:object="${author}">
     <label for="fullname">Введите ФИО:</label>
-    <input type="text" th:field="*{fullname}"
-           id="fullname" name="fullname">
+    <input type="text" th:field="*{fullname}" id="fullname" name="fullname">
+    <div style="color:red" th:if="${#fields.hasErrors('fullname')}"
+         th:errors="*{fullname}"></div>
     <br/>
     <label for="year">Введите год рождения:</label>
     <input type="text" th:field="*{year}" id="year" name="year">
+    <div style="color:red" th:if="${#fields.hasErrors('year')}"
+         th:errors="*{year}">
+    </div>
     <hr/>
     <input type="submit" value="Create!">
 

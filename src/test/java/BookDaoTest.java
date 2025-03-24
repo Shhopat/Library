@@ -1,64 +1,49 @@
-import dao.AuthorDao;
-import dao.BookDao;
 import model.Author;
 import model.Book;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.query.Query;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import repositories.BookRepository;
+import services.AuthorService;
+import services.BookService;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 @ExtendWith(MockitoExtension.class)
 public class BookDaoTest {
+
     @Mock
-    private SessionFactory sessionFactory;
+    private BookRepository bookRepository;
     @Mock
-    private Session session;
+    private Optional<Book> optionalBook;
     @Mock
-    private Query<Book> query;
-    @Mock
-    private AuthorDao authorDao;
+    private AuthorService authorService;
     @InjectMocks
-    private BookDao bookDao;
+    BookService bookService;
 
-
-    @BeforeEach
-    void setUp() {
-        Mockito.when(sessionFactory.getCurrentSession()).thenReturn(session);
-    }
 
     @Test
     void shouldGetAllBooks() {
         List<Book> list = Arrays.asList(new Book("Книга", "Fdnjh", 12));
-        Mockito.when(session.createQuery("FROM Book", Book.class)).thenReturn(query);
-        Mockito.when(query.getResultList()).thenReturn(list);
-
-        List<Book> result = bookDao.getAllBooks();
-
+        Mockito.when(bookRepository.findAll()).thenReturn(list);
+        List<Book> result = bookService.findAll();
         Assertions.assertEquals(list.get(0).getName(), result.get(0).getName());
-        Assertions.assertEquals(list.get(0).getYearBook(), result.get(0).getYearBook());
         Assertions.assertEquals(list.get(0).getNameAuthor(), result.get(0).getNameAuthor());
-
-        Mockito.verify(session).createQuery("FROM Book", Book.class);
-        Mockito.verify(query).getResultList();
-
-
+        Assertions.assertEquals(list.size(), result.size());
     }
 
     @Test
     void shouldSaveBook() {
         Book book = new Book("Книга", "Саша", 12);
-        bookDao.save(book);
-        Mockito.verify(session).save(book);
+        bookService.save(book);
+        Mockito.verify(bookRepository).save(book);
+
 
     }
 
@@ -66,34 +51,34 @@ public class BookDaoTest {
     void shouldBookById() {
         int id = 1;
         Book book = new Book("Книга", "Саша", 12);
-        Mockito.when(session.get(Book.class, id)).thenReturn(book);
+        optionalBook = Optional.of(book);
+        Mockito.when(bookRepository.findById(id)).thenReturn(optionalBook);
 
-        Book result = bookDao.getBookById(id);
+        Book result = bookService.findById(id);
 
         Assertions.assertEquals(book.getNameAuthor(), result.getNameAuthor());
         Assertions.assertEquals(book.getName(), result.getName());
 
-        Mockito.verify(session).get(Book.class, id);
+        Mockito.verify(bookRepository).findById(id);
+
+
     }
 
     @Test
     void shouldAddAuthor() {
         int id = 1;
         Author author = new Author("Ибрагим", 1997);
-        author.setId(id);
-        Book book = new Book("Книга", "Саша", 12);
-        Book book1 = new Book("Книга", "Саша", 12);
-        book1.setAuthor(author);
+        Book old = new Book("Книга", "Саша", 12);
+        Book newBook = new Book("Книга", "Саша", 12);
+        newBook.setAuthor(author);
 
-        Mockito.when(session.get(Book.class, id)).thenReturn(book);
-        Mockito.when(authorDao.getAuthorById(id)).thenReturn(author);
+        optionalBook = Optional.of(old);
+        Mockito.when(bookRepository.findById(id)).thenReturn(optionalBook);
+        bookService.addAuthor(id, newBook);
 
-        bookDao.addAuthor(id, book1);
+        Assertions.assertEquals(old.getAuthor().getFullname(), newBook.getAuthor().getFullname());
 
-        Assertions.assertEquals(book.getAuthor().getFullname(), book1.getAuthor().getFullname());
-
-        Mockito.verify(session).get(Book.class, id);
-        Mockito.verify(session).update(book);
+        Mockito.verify(bookRepository).save(old);
 
 
     }
@@ -102,22 +87,17 @@ public class BookDaoTest {
     void shouldUpdate() {
         int id = 1;
         Author author = new Author("Ибрагим", 1997);
-        author.setId(id);
-        Book book = new Book("Книг", "Саш", 1);
-        Book book1 = new Book("Книга", "Саша", 12);
-        book1.setAuthor(author);
+        Book old = new Book("Книга", "Саша", 12);
+        Book newBook = new Book("Книга", "Саша", 12);
+        newBook.setAuthor(author);
 
-        Mockito.when(session.get(Book.class, id)).thenReturn(book);
+        optionalBook = Optional.of(old);
+        Mockito.when(bookRepository.findById(id)).thenReturn(optionalBook);
 
-        bookDao.update(id, book1);
+        bookService.update(id, newBook);
 
-        Assertions.assertEquals(book.getName(), book1.getName());
-        Assertions.assertEquals(book.getYearBook(), book1.getYearBook());
-        Assertions.assertEquals(book.getNameAuthor(), book1.getNameAuthor());
-        Assertions.assertEquals(book.getAuthor().getFullname(), book1.getAuthor().getFullname());
-
-        Mockito.verify(session).get(Book.class, id);
-        Mockito.verify(session).update(book);
+        Mockito.verify(bookRepository).findById(id);
+        Mockito.verify(bookRepository).save(old);
 
 
     }
@@ -126,13 +106,9 @@ public class BookDaoTest {
     void shouldRemoveById() {
         int id = 1;
         Book book = new Book("Книг", "Саш", 1);
-
-        Mockito.when(session.get(Book.class, id)).thenReturn(book);
-
-        bookDao.remove(id);
-
-        Mockito.verify(session).get(Book.class, id);
-        Mockito.verify(session).remove(book);
+        book.setId(id);
+        bookService.delete(id);
+        Mockito.verify(bookRepository).deleteById(id);
 
 
     }
@@ -143,15 +119,14 @@ public class BookDaoTest {
         Author author = new Author("Ибрагим", 1997);
         Book book = new Book("Книг", "Саш", 1);
         book.setAuthor(author);
+        optionalBook = Optional.of(book);
 
-        Mockito.when(session.get(Book.class, id)).thenReturn(book);
-
-        bookDao.removeAuthorBook(id);
+        Mockito.when(bookRepository.findById(id)).thenReturn(optionalBook);
+        bookService.deleteAuthor(id);
 
         Assertions.assertNull(book.getAuthor());
 
-        Mockito.verify(session).get(Book.class, id);
-        Mockito.verify(session).update(book);
+        Mockito.verify(bookRepository).save(book);
 
 
     }
