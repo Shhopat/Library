@@ -131,5 +131,21 @@ public class BookDaoTest {
 
     }
 
+    @Test
+    void shouldGetBookByLikeName() {
+        String like = "Философия";
+        List<Book> list = Arrays.asList(new Book(like, "Иван", 1999));
+        Mockito.when(bookRepository.findByNameStartingWith(like)).thenReturn(list);
+        List<Book> result = bookService.findByNameStartingWith(like);
+
+        Assertions.assertEquals(list.get(0).getName(), result.get(0).getName());
+        Assertions.assertEquals(list.get(0).getNameAuthor(), result.get(0).getNameAuthor());
+        Assertions.assertEquals(list.get(0).getYearBook(), result.get(0).getYearBook());
+
+        Mockito.verify(bookRepository).findByNameStartingWith(like);
+
+
+    }
+
 
 }
