@@ -68,5 +68,9 @@ public class BookService {
         bookRepository.save(book);
     }
 
+    public List<Book> findByNameStartingWith(String like) {
+        return bookRepository.findByNameStartingWith(like);
+    }
+
 
 }

@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>All authors</title>
+</head>
+<body>
+<form th:method="POST" th:action="@{/books/search}">
+    <label for="str">Введите поисковой запрос:</label>
+    <input type="text" name="str" id="str">
+    <br/>
+    <hr/>
+    <input type="submit" value="Искать!">
+</form>
+
+
+</body>
+</html>

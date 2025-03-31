@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>All authors</title>
+</head>
+<body>
+<p th:if="${book == null or book.isEmpty()}">Книг не найдено</p>
+<div th:if="${book != null and !book.isEmpty()}">
+    <div th:each="book: ${book}">
+        <p th:text="${book.id + '. ' + book.name + ' '
+        + book.nameAuthor + ' ' + book.yearBook }"></p>
+        <div th:if="${book.author != null}">
+            <p th:text="${ 'Книга сейчас у: ' + book.author.fullname}"></p>
+        </div>
+        <p th:if="${book.author == null or book.author.isEmpty()}">
+            Книга свободна
+        </p>
+        <hr/>
+    </div>
+</div>
+
+</body>
+</html>

@@ -2,6 +2,7 @@ package controller;
 
 import jakarta.validation.Valid;
 import model.Book;
+import org.hibernate.validator.constraints.ModCheck;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -85,6 +86,17 @@ public class BookController {
     public String takeBook(@PathVariable("id") int id) {
         bookService.deleteAuthor(id);
         return "redirect:/books/" + id;
+    }
+
+    @GetMapping("/search")
+    public String getSearch() {
+        return "search.html";
+    }
+
+    @PostMapping("/search")
+    public String postSearch(@RequestParam("str") String str, Model model) {
+        model.addAttribute("book", bookService.findByNameStartingWith(str));
+        return "findByName.html";
     }
 
 
